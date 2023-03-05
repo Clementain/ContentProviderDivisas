@@ -1,6 +1,5 @@
-package com.example.android.marsphotos.network
+package com.example.contentproviderdivisas.Internet
 
-import com.example.contentproviderdivisas.Internet.Moneda
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
@@ -8,7 +7,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-private const val BASE_URL = "https://open.er-api.com/v6/latest"
+private const val BASE_URL = "https://open.er-api.com"
 
 /**
  * Build the Moshi object with Kotlin adapter factory that Retrofit will be using.
@@ -31,7 +30,7 @@ interface ExchangeRateApiService {
      * The @GET annotation indicates that the "photos" endpoint will be requested with the GET
      * HTTP method
      */
-    @GET("monedas/{valor}")
+    @GET("/v6/latest/{valor}")
     suspend fun getMonedas(@Path("valor") valor: String): List<Moneda>
 }
 
