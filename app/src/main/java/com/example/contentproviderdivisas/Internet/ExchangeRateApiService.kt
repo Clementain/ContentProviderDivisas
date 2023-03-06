@@ -9,34 +9,19 @@ import retrofit2.http.Path
 
 private const val BASE_URL = "https://open.er-api.com"
 
-/**
- * Build the Moshi object with Kotlin adapter factory that Retrofit will be using.
- */
+
 private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-/**
- * The Retrofit object with the Moshi converter.
- */
+
 private val retrofit =
     Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).baseUrl(BASE_URL)
         .build()
 
-/**
- * A public interface that exposes the [getPhotos] method
- */
 interface ExchangeRateApiService {
-    /**
-     * Returns a [List] of [MarsPhoto] and this method can be called from a Coroutine.
-     * The @GET annotation indicates that the "photos" endpoint will be requested with the GET
-     * HTTP method
-     */
-    @GET("v6/latest/USD")
-    suspend fun getMonedas(): Moneda
+    @GET("v6/latest/{moneda}")
+    suspend fun getMonedas(@Path("moneda") moneda: String): Moneda
 }
 
-/**
- * A public Api object that exposes the lazy-initialized Retrofit service
- */
 object ExchangeApi {
     val retrofitService: ExchangeRateApiService by lazy { retrofit.create(ExchangeRateApiService::class.java) }
 }

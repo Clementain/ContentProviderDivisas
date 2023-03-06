@@ -7,9 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.contentproviderdivisas.Internet.ExchangeApi
 import kotlinx.coroutines.launch
 
-/**
- * The [ViewModel] that is attached to the [OverviewFragment].
- */
 class OverviewViewModel() : ViewModel() {
 
     // The internal MutableLiveData that stores the status of the most recent request
@@ -22,17 +19,17 @@ class OverviewViewModel() : ViewModel() {
      * Call getMarsPhotos() on init so we can display status immediately.
      */
     init {
-        getMonedasValor()
+        getMonedasValor("USD")
     }
 
     /**
      * Gets Mars photos information from the Mars API Retrofit service and updates the
      * [MarsPhoto] [List] [LiveData].
      */
-    private fun getMonedasValor() {
+    fun getMonedasValor(moneda: String) {
         viewModelScope.launch {
             try {
-                val listResult = ExchangeApi.retrofitService.getMonedas()
+                val listResult = ExchangeApi.retrofitService.getMonedas(moneda)
                 _status.value = listResult.toString()
             } catch (e: Exception) {
                 _status.value = "Failure: ${e.message}"
