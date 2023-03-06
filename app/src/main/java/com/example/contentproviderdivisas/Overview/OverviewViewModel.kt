@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 /**
  * The [ViewModel] that is attached to the [OverviewFragment].
  */
-class OverviewViewModel(private val valor: String) : ViewModel() {
+class OverviewViewModel() : ViewModel() {
 
     // The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<String>()
@@ -32,8 +32,8 @@ class OverviewViewModel(private val valor: String) : ViewModel() {
     private fun getMonedasValor() {
         viewModelScope.launch {
             try {
-                val listResult = ExchangeApi.retrofitService.getMonedas(valor)
-                _status.value = "Success: ${listResult.size} Mars photos retrieved"
+                val listResult = ExchangeApi.retrofitService.getMonedas()
+                _status.value = listResult.toString()
             } catch (e: Exception) {
                 _status.value = "Failure: ${e.message}"
             }

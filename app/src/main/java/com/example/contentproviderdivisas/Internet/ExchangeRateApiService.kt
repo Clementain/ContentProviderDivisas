@@ -30,8 +30,8 @@ interface ExchangeRateApiService {
      * The @GET annotation indicates that the "photos" endpoint will be requested with the GET
      * HTTP method
      */
-    @GET("/v6/latest/{valor}")
-    suspend fun getMonedas(@Path("valor") valor: String): List<Moneda>
+    @GET("v6/latest/USD")
+    suspend fun getMonedas(): Moneda
 }
 
 /**
