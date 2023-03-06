@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         overviewViewModel.status.observe(this) { status ->
             findViewById<TextView>(R.id.status_text_view).text = status
         }
+
         val monedaEditText = findViewById<EditText>(R.id.txtMoneda)
         val buscarButton = findViewById<Button>(R.id.btnBuscar)
         buscarButton.setOnClickListener {
