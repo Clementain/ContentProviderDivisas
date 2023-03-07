@@ -6,12 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.example.contentproviderdivisas.BD.BaseDatos
-import com.example.contentproviderdivisas.BD.Divisas
-import com.example.contentproviderdivisas.Internet.Moneda
 import com.example.contentproviderdivisas.Overview.OverviewViewModel
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         // Obtener una instancia del ViewModel
         overviewViewModel = ViewModelProvider(this)[OverviewViewModel::class.java]
 
@@ -34,16 +28,14 @@ class MainActivity : AppCompatActivity() {
         buscarButton.setOnClickListener {
             val moneda = monedaEditText.text.toString()
             overviewViewModel.getMonedasValor(moneda)
-            lifecycleScope.launch {
-                insertar(overviewViewModel.mon)
+            val divisa = overviewViewModel.mon
+
+            for ((key, value) in divisa.rates.entries) {
+
             }
+
         }
     }
 
-    suspend fun insertar(mon: Moneda) {
-        for ((key, value) in mon.rates.entries) {
-            val divisa = Divisas(baseCode = mon.baseCode, nombre = key, valor = value)
-            BaseDatos.getDatabase(this).divisaDao().insert(divisa)
-        }
-    }
+
 }
