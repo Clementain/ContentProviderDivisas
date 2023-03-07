@@ -3,17 +3,14 @@ package com.example.contentproviderdivisas.BD
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
 
 @Entity(tableName = "divisas")
-class Divisas : Serializable {
-    @PrimaryKey()
-    var baseCode: String? = null
+data class Divisas(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
 
-    @ColumnInfo(name = "nombreDivisa")
-    var nomD: String? = null
+    @ColumnInfo(name = "base_code") val baseCode: String,
 
-    @ColumnInfo(name = "valorDivisa")
-    var valD: Double? = null
+    @ColumnInfo(name = "nombre") val nombre: String,
 
-}
+    @ColumnInfo(name = "valor") val valor: Double
+)
