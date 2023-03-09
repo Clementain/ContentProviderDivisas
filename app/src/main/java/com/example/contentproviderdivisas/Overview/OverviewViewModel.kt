@@ -7,7 +7,18 @@ import com.example.contentproviderdivisas.Internet.Moneda
 import kotlinx.coroutines.launch
 
 class OverviewViewModel : ViewModel() {
-    lateinit var mon: Moneda
+    var mon: Moneda = Moneda(
+        "",
+        "",
+        "",
+        "",
+        0,
+        "",
+        0,
+        "",
+        0,
+        "",
+        mutableMapOf<String, Double>().withDefault { 0.0 }) // Asignación de valor predeterminado
 
     init {
         getMonedasValor()
