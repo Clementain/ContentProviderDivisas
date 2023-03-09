@@ -5,7 +5,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Path
 
 private const val BASE_URL = "https://open.er-api.com"
 
@@ -18,8 +17,8 @@ private val retrofit =
         .build()
 
 interface ExchangeRateApiService {
-    @GET("v6/latest/{moneda}")
-    suspend fun getMonedas(@Path("moneda") moneda: String): Moneda
+    @GET("v6/latest/USD")
+    suspend fun getMonedas(): Moneda
 }
 
 object ExchangeApi {

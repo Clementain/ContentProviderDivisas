@@ -2,11 +2,15 @@ package com.example.contentproviderdivisas
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.example.contentproviderdivisas.BD.Divisa
+import com.example.contentproviderdivisas.BD.DivisaDatabase
 import com.example.contentproviderdivisas.Overview.OverviewViewModel
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,27 +19,28 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // Obtener una instancia del ViewModel
+        val db = Room.databaseBuilder(
+            applicationContext, DivisaDatabase::class.java, "DivisasDatabase.db"
+        ).build()
+        val divisaDao = db.divisaDao()
         overviewViewModel = ViewModelProvider(this)[OverviewViewModel::class.java]
 
-        // Observar la variable "status" en el ViewModel y actualizar el TextView en consecuencia
-        overviewViewModel.status.observe(this) { status ->
-            findViewById<TextView>(R.id.status_text_view).text = status
-        }
 
-        val monedaEditText = findViewById<EditText>(R.id.txtMoneda)
         val buscarButton = findViewById<Button>(R.id.btnBuscar)
         buscarButton.setOnClickListener {
-            val moneda = monedaEditText.text.toString()
-            overviewViewModel.getMonedasValor(moneda)
-            val divisa = overviewViewModel.mon
-
-            for ((key, value) in divisa.rates.entries) {
+            val tasasCambio = overviewViewModel.mon
+            val f = LocalDate.now().toString()
+            for ((key, value) in tasasCambio.rates.entries) {
+                val divisa = Divisa(
+                    baseCode = tasasCambio.baseCode, nombreDivisa = key, valor = value, fecha = f
+                )
+                lifecycleScope.launch {
+                    divisaDao.insertDivisa(divisa)
+                }
 
             }
-
         }
+
+
     }
-
-
 }

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.contentproviderdivisas"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -31,6 +31,7 @@ android {
         jvmTarget = '1.8'
     }
 }
+apply plugin: 'kotlin-kapt'
 
 dependencies {
 
@@ -48,8 +49,15 @@ dependencies {
     // Retrofit with Moshi Converter
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
 
-    implementation "androidx.room:room-runtime:2.5.0"
+    // Room
 
+    implementation "androidx.room:room-runtime:2.5.0"
+    implementation "androidx.room:room-ktx:2.5.0"
+
+    kapt "androidx.room:room-compiler:2.5.0"
+
+
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
 
