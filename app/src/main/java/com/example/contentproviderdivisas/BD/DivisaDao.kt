@@ -13,7 +13,7 @@ interface DivisaDao {
     fun update(divisa: Divisa)
 
     @Query("SELECT * FROM Divisa WHERE baseCode = :code")
-    fun getByCode(code: String): Divisa
+    fun getByCode(code: String) : Divisa
 
     @Query("select * from Divisa")
     fun getAllCursor(): Cursor

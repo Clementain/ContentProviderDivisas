@@ -1,4 +1,4 @@
-package com.example.contentproviderdivisas.Provider
+package com.example.contentproviderdivisas.Content
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -6,20 +6,26 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
 import com.example.contentproviderdivisas.BD.DivisaDatabase
+import com.example.contentproviderdivisas.Repository.DivisaRepository
+import com.example.contentproviderdivisas.Repository.Myapplication
 
 private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
 
-    addURI("com.example.contentproviderdivisas", "monedas", 1)
+    addURI("com.example.contentproviderdivisas", "divisas", 1)
 
-    addURI("com.example.contentproviderdivisas", "monedas/#", 2)
+    addURI("com.example.contentproviderdivisas", "divisas/#", 2)
 
-    addURI("com.example.contentproviderdivisas", "monedas/*", 3)
+    addURI("com.example.contentproviderdivisas", "divisas/*", 3)
 }
 
 class MyContentProvider : ContentProvider() {
 
+    lateinit var repository: DivisaRepository
     lateinit var db: DivisaDatabase
     override fun onCreate(): Boolean {
+        //TODO("Not yet implemented")
+        repository = (context as Myapplication).repositoryMoneda
+        db = (context as Myapplication).database
         return true
     }
 
@@ -30,14 +36,19 @@ class MyContentProvider : ContentProvider() {
         var cursor: Cursor? = null
 
         when (sUriMatcher.match(p0)) {
-
+            //"content://com.example.proyectodivisa/monedas"
+            //query / insert
             1 -> {
                 cursor = db.divisaDao().getAllCursor()
 
             }
+            //"content://com.example.proyectodivisa/monedas/*"
+            //query
             2 -> {
 
             }
+            //"content://com.example.proyectodivisa/monedas/#"
+            //query / update  /  delete
             3 -> {
 
             }

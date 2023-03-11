@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Divisa(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    var _id: Int = 0,
     var baseCode: String,
     var nombreDivisa: String,
     var valor: Double,

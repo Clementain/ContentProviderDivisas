@@ -10,7 +10,7 @@ import androidx.work.*
 import com.example.contentproviderdivisas.BD.Divisa
 import com.example.contentproviderdivisas.BD.DivisaDatabase
 import com.example.contentproviderdivisas.Overview.OverviewViewModel
-import com.example.contentproviderdivisas.workmanager.MyWorker
+import com.example.contentproviderdivisas.WorkManager.MyWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,17 +32,14 @@ class MainActivity : AppCompatActivity() {
         overviewViewModel = ViewModelProvider(this)[OverviewViewModel::class.java]
 
         // Programar tarea de actualización
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+        val constraints =
+            Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
         val actualizacionDivisasWork = PeriodicWorkRequestBuilder<MyWorker>(
-            5, TimeUnit.MINUTES
+            15, TimeUnit.MINUTES
         ).setConstraints(constraints).build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "ActualizacionDivisasWork",
-            ExistingPeriodicWorkPolicy.KEEP,
-            actualizacionDivisasWork
+            "MyWorker", ExistingPeriodicWorkPolicy.KEEP, actualizacionDivisasWork
         )
 
         val buscarButton = findViewById<Button>(R.id.btnBuscar)
@@ -53,15 +50,19 @@ class MainActivity : AppCompatActivity() {
                     val f = LocalDate.now().toString()
                     for ((key, value) in tasasCambio.rates.entries) {
                         val divisa = Divisa(
-                            baseCode = tasasCambio.baseCode, nombreDivisa = key, valor = value, fecha = f
+                            baseCode = tasasCambio.baseCode,
+                            nombreDivisa = key,
+                            valor = value,
+                            fecha = f
                         )
                         withContext(Dispatchers.IO) {
                             divisaDao.insertDivisa(divisa)
                         }
                     }
-                    delay(300000) // Dilei
+                    delay(600000) // Esperar 10 minuto
                 }
             }
         }
     }
+
 }

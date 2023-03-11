@@ -21,7 +21,7 @@ private val retrofit =
 interface ExchangeRateApiService {
     @GET("v6/latest/USD")
     suspend fun getMonedas(): Moneda
-    val posts : Call<Posts>
+    val posts: Call<Posts>
 }
 
 object ExchangeApi {
