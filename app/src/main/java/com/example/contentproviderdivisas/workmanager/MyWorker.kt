@@ -39,11 +39,13 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
                 var moneda = Divisa(
                     _id = 0, baseCode = "", nombreDivisa = "", valor = 0.0, fecha = ""
                 )
-                for (codes in post!!.conversion_ratesonversions) {
-                    moneda.baseCode = codes.key
-                    moneda.valor = codes.value
-                    DivisaDatabase.getDatabase(applicationContext, applicationScope).divisaDao()
-                        .insertDivisa(moneda)
+                if (post != null) {
+                    post.conversion_ratesonversions?.forEach { codes ->
+                        moneda.baseCode = codes.key
+                        moneda.valor = codes.value
+                        DivisaDatabase.getDatabase(applicationContext, applicationScope).divisaDao()
+                            .insertDivisa(moneda)
+                    }
                 }
             }
 
